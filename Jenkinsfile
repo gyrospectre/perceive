@@ -38,7 +38,7 @@ pipeline {
           steps {
             sh '''
              cd terraform
-             cat ../playbooks/hosts.template | sed "s/{CONFLUENT_IP}/$(terraform output confluent_ip)/g" > ../hosts.yml
+             cat ../playbooks/hosts.template | sed "s/{CONFLUENT_IP}/$(terraform output confluent_ip)/g" | sed "s/{NIFI_IP}/$(terraform output nifi_ip)/g" > ../hosts.yml
            '''
           }
         }
@@ -57,7 +57,7 @@ pipeline {
             }
             stage('Deploy Nifi') {
               steps {
-                ansiblePlaybook 'playbooks/nifi.yml'
+                ansiblePlaybook(playbook: 'playbooks/nifi.yml', credentialsId: 'ubuntu', disableHostKeyChecking: true, inventory: 'hosts.yml', become: true, becomeUser: 'root')
               }
             }
           }
