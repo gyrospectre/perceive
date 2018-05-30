@@ -17,9 +17,34 @@ pipeline {
         }
       }
     }
+    stage('Deploy Instances') {
+      when {
+        tag "rebuild"
+      }
+      steps {
+        withCredentials([[
+          $class: 'AmazonWebServicesCredentialsBinding',
+          credentialsId: 'aws-jenkins',
+          accessKeyVariable: 'AWS_ACCESS_KEY_ID',
+          secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
+        ]])
+        {
+          sh '''
+               cd terraform
+               terraform init
+               terraform apply -auto-approve -var access_key=${AWS_KEY} -var secret_key=${AWS_SECRET}
+             '''
+        }
+      }
+    }
+    stage('Build Hosts File') {
+      steps {
+        sh 'cat playbooks/hosts.template | sed "s/{CONFLUENT_IP}/$(terraform output confluent_ip)/g" | sed "s/{KEY_FILE}/\/var\/lib\/jenkins\/.ssh\/ubuntu.pem/g" > hosts.yml'
+      }
+    }
     stage('Deploy Confluent') {
       steps {
-        ansiblePlaybook(playbook: 'playbooks/kafka.yml', credentialsId: 'ubuntu', disableHostKeyChecking: true, inventory: '/home/user/hosts.yml', become: true, becomeUser: 'root')
+        ansiblePlaybook(playbook: 'playbooks/confluent.yml', credentialsId: 'ubuntu', disableHostKeyChecking: true, inventory: 'hosts.yml', become: true, becomeUser: 'root')
       }
     }
   }

@@ -1,6 +1,6 @@
 ---
 - name: "Bootstrap Confluent server(s)"
-  hosts: "kafka-servers"
+  hosts: "confluent-servers"
   become: True
 
   tasks:
