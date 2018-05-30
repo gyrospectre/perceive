@@ -49,8 +49,10 @@ pipeline {
       }
     }
     stage ("Pause to allow instance to finish starting") {
-      echo 'Waiting 30 seconds to allow instance to finish starting up...'
-      sleep 30 // seconds
+      steps {
+        echo 'Waiting 30 seconds to allow instance to finish starting up...'
+        sleep 30 // seconds
+      }
     }
     stage('Deploy Confluent') {
       steps {
