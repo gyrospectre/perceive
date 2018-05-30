@@ -32,14 +32,6 @@
         group: root
         mode: 0755
 
-    - name: Copy bootstrap config to remote
-      copy:
-        src: ../nificfg/bootstrap.conf
-        dest: /tmp/bootstrap.conf
-        owner: root
-        group: root
-        mode: 0755
-
     - name: Copy Dockerfile to remote
       copy:
         src: ../nificfg/Dockerfile
