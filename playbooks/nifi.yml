@@ -54,5 +54,5 @@
         state: started
         ports: "0.0.0.0:8080:8080"
         image: "nifi:configured"
-        memory: "768m"
+        memory: "1024m"
 
