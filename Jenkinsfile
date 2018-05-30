@@ -1,5 +1,11 @@
 pipeline {
   agent any
+
+  environment {
+    REBUILD_AMI = 'True'
+    ANSIBLE_HOST_KEY_CHECKING = 'False'
+   }
+
   stages {
     stage('Build AMI') {
       when {
