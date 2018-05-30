@@ -7,8 +7,13 @@
   "provisioners": [
     {
       "type": "file",
-      "source": "bootstrap_docker_ce.sh",
+      "source": "packer/bootstrap_docker_ce.sh",
       "destination": "/tmp/bootstrap_docker_ce.sh"
+    },
+    {
+      "type": "file",
+      "source": "packer/cleanup.sh",
+      "destination": "/tmp/cleanup.sh"
     },
     {
       "type": "shell",

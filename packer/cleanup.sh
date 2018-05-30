@@ -2,7 +2,7 @@
 
 # Cleanup AMI after installs
 # Credit to Gary Stafford
-# https://raw.githubusercontent.com/garystafford/ami-docker-ce-packer/master/packer/bootstrap_docker_ce.sh
+# https://raw.githubusercontent.com/garystafford/ami-docker-ce-packer/master/packer/cleanup.sh
 
 set -e
 
