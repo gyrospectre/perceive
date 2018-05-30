@@ -1,0 +1,45 @@
+---
+- name: "Bootstrap Confluent server(s)"
+  hosts: "kafka-servers"
+  become: True
+
+  tasks:
+    - name: Install pip
+      apt:
+        name: "python-pip"
+        state: "present"
+        update_cache: True
+        install_recommends: False
+
+    - name: Install Docker-py
+      pip:
+        name: "{{ item }}"
+      with_items:
+      - setuptools
+      - six
+      - docker-py
+      - docker-compose==1.9.0
+
+    - name: Creates directory
+      file:
+        path: /opt/compose/confluent
+        state: directory
+        owner: root
+        group: root
+        mode: 0755
+        recurse: yes
+
+    - name: Copy docker settings to remote
+      copy:
+        src: ../confluent-all/docker-compose.yml
+        dest: /opt/compose/confluent/docker-compose.yml
+        owner: root
+        group: root
+        mode: 0755
+
+    - name: Run the service defined in docker-compose.yml
+      docker_service:
+        project_src: /opt/compose/confluent
+      environment:
+        KAFKA_ADVERTISED_HOST_NAME: "{{inventory_hostname}}"
+

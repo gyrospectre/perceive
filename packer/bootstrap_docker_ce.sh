@@ -14,7 +14,8 @@ sudo apt-get install \
     curl \
     software-properties-common \
     python \
-    python-setuptools
+    python-setuptools \
+    python-pip
 
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 sudo apt-key fingerprint 0EBFCD88
