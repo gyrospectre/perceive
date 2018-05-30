@@ -45,3 +45,7 @@ resource "aws_security_group" "perceive_confluent_sg" {
     create_before_destroy = true
   }
 }
+
+output "confluent_ip" {
+  value = "${aws_instance.confluent.private_ip}"
+}
