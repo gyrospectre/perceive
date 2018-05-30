@@ -42,7 +42,7 @@ pipeline {
            '''
           }
         }
-        stage('Pause to allow instance to finish starting') {
+        stage('Pause') {
           steps {
             echo 'Waiting 30 seconds to allow instance to finish starting up...'
             sleep 30

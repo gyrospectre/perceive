@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<flowController encoding-version="1.3">
+  <maxTimerDrivenThreadCount>10</maxTimerDrivenThreadCount>
+  <maxEventDrivenThreadCount>5</maxEventDrivenThreadCount>
+  <registries/>
+  <rootGroup>
+    <id>fb9b1a2f-0162-1000-c396-5622e727c7dd</id>
+    <name>NiFi Flow</name>
+    <position x="0.0" y="0.0"/>
+    <comment/>
+    <processor>
+      <id>fbdabf3f-0162-1000-f82a-00d90dc9c6ba</id>
+      <name>PutElasticsearchHttp</name>
+      <position x="1224.0" y="43.0"/>
+      <styles/>
+      <comment/>
+      <class>org.apache.nifi.processors.elasticsearch.PutElasticsearchHttp</class>
+      <bundle>
+        <group>org.apache.nifi</group>
+        <artifact>nifi-elasticsearch-nar</artifact>
+        <version>1.6.0</version>
+      </bundle>
+      <maxConcurrentTasks>1</maxConcurrentTasks>
+      <schedulingPeriod>0 sec</schedulingPeriod>
+      <penalizationPeriod>30 sec</penalizationPeriod>
+      <yieldPeriod>1 sec</yieldPeriod>
+      <bulletinLevel>WARN</bulletinLevel>
+      <lossTolerant>false</lossTolerant>
+      <scheduledState>RUNNING</scheduledState>
+      <schedulingStrategy>TIMER_DRIVEN</schedulingStrategy>
+      <executionNode>ALL</executionNode>
+      <runDurationNanos>0</runDurationNanos>
+      <property>
+        <name>elasticsearch-http-url</name>
+        <value>http://192.168.1.4:9200</value>
+      </property>
+      <property>
+        <name>SSL Context Service</name>
+      </property>
+      <property>
+        <name>Username</name>
+      </property>
+      <property>
+        <name>Password</name>
+      </property>
+      <property>
+        <name>elasticsearch-http-connect-timeout</name>
+        <value>5 secs</value>
+      </property>
+      <property>
+        <name>elasticsearch-http-response-timeout</name>
+        <value>15 secs</value>
+      </property>
+      <property>
+        <name>put-es-id-attr</name>
+      </property>
+      <property>
+        <name>put-es-index</name>
+        <value>windows</value>
+      </property>
+      <property>
+        <name>put-es-type</name>
+        <value>_doc</value>
+      </property>
+      <property>
+        <name>Character Set</name>
+        <value>UTF-8</value>
+      </property>
+      <property>
+        <name>put-es-batch-size</name>
+        <value>100</value>
+      </property>
+      <property>
+        <name>put-es-index-op</name>
+        <value>index</value>
+      </property>
+      <autoTerminatedRelationship>retry</autoTerminatedRelationship>
+      <autoTerminatedRelationship>success</autoTerminatedRelationship>
+      <autoTerminatedRelationship>failure</autoTerminatedRelationship>
+    </processor>
+    <processor>
+      <id>fbdc8c77-0162-1000-b415-98e73b9b45a1</id>
+      <name>ConsumeKafka</name>
+      <position x="214.0" y="-10.0"/>
+      <styles/>
+      <comment/>
+      <class>org.apache.nifi.processors.kafka.pubsub.ConsumeKafka</class>
+      <bundle>
+        <group>org.apache.nifi</group>
+        <artifact>nifi-kafka-0-9-nar</artifact>
+        <version>1.6.0</version>
+      </bundle>
+      <maxConcurrentTasks>1</maxConcurrentTasks>
+      <schedulingPeriod>0 sec</schedulingPeriod>
+      <penalizationPeriod>30 sec</penalizationPeriod>
+      <yieldPeriod>1 sec</yieldPeriod>
+      <bulletinLevel>WARN</bulletinLevel>
+      <lossTolerant>false</lossTolerant>
+      <scheduledState>RUNNING</scheduledState>
+      <schedulingStrategy>TIMER_DRIVEN</schedulingStrategy>
+      <executionNode>ALL</executionNode>
+      <runDurationNanos>0</runDurationNanos>
+      <property>
+        <name>bootstrap.servers</name>
+        <value>192.168.1.4:9092</value>
+      </property>
+      <property>
+        <name>security.protocol</name>
+        <value>PLAINTEXT</value>
+      </property>
+      <property>
+        <name>sasl.kerberos.service.name</name>
+      </property>
+      <property>
+        <name>ssl.context.service</name>
+      </property>
+      <property>
+        <name>topic</name>
+        <value>logs_windows</value>
+      </property>
+      <property>
+        <name>group.id</name>
+        <value>1</value>
+      </property>
+      <property>
+        <name>auto.offset.reset</name>
+        <value>latest</value>
+      </property>
+      <property>
+        <name>key-attribute-encoding</name>
+        <value>utf-8</value>
+      </property>
+      <property>
+        <name>message-demarcator</name>
+      </property>
+      <property>
+        <name>max.poll.records</name>
+        <value>10000</value>
+      </property>
+      <property>
+        <name>max-uncommit-offset-wait</name>
+        <value>1 secs</value>
+      </property>
+    </processor>
+    <processor>
+      <id>fbdcba79-0162-1000-6fdb-f2018d8664cd</id>
+      <name>SplitJson</name>
+      <position x="514.0" y="272.0"/>
+      <styles/>
+      <comment/>
+      <class>org.apache.nifi.processors.standard.SplitJson</class>
+      <bundle>
+        <group>org.apache.nifi</group>
+        <artifact>nifi-standard-nar</artifact>
+        <version>1.6.0</version>
+      </bundle>
+      <maxConcurrentTasks>1</maxConcurrentTasks>
+      <schedulingPeriod>0 sec</schedulingPeriod>
+      <penalizationPeriod>30 sec</penalizationPeriod>
+      <yieldPeriod>1 sec</yieldPeriod>
+      <bulletinLevel>WARN</bulletinLevel>
+      <lossTolerant>false</lossTolerant>
+      <scheduledState>RUNNING</scheduledState>
+      <schedulingStrategy>TIMER_DRIVEN</schedulingStrategy>
+      <executionNode>ALL</executionNode>
+      <runDurationNanos>0</runDurationNanos>
+      <property>
+        <name>JsonPath Expression</name>
+        <value>$.*</value>
+      </property>
+      <property>
+        <name>Null Value Representation</name>
+        <value>empty string</value>
+      </property>
+      <autoTerminatedRelationship>failure</autoTerminatedRelationship>
+      <autoTerminatedRelationship>original</autoTerminatedRelationship>
+    </processor>
+    <connection>
+      <id>fbddb305-0162-1000-f3d0-1cb370ab6598</id>
+      <name/>
+      <bendPoints/>
+      <labelIndex>1</labelIndex>
+      <zIndex>0</zIndex>
+      <sourceId>fbdcba79-0162-1000-6fdb-f2018d8664cd</sourceId>
+      <sourceGroupId>fb9b1a2f-0162-1000-c396-5622e727c7dd</sourceGroupId>
+      <sourceType>PROCESSOR</sourceType>
+      <destinationId>fbdabf3f-0162-1000-f82a-00d90dc9c6ba</destinationId>
+      <destinationGroupId>fb9b1a2f-0162-1000-c396-5622e727c7dd</destinationGroupId>
+      <destinationType>PROCESSOR</destinationType>
+      <relationship>split</relationship>
+      <maxWorkQueueSize>10000</maxWorkQueueSize>
+      <maxWorkQueueDataSize>1 GB</maxWorkQueueDataSize>
+      <flowFileExpiration>0 sec</flowFileExpiration>
+    </connection>
+    <connection>
+      <id>fbdce759-0162-1000-91a9-d386e9d2a761</id>
+      <name/>
+      <bendPoints/>
+      <labelIndex>1</labelIndex>
+      <zIndex>0</zIndex>
+      <sourceId>fbdc8c77-0162-1000-b415-98e73b9b45a1</sourceId>
+      <sourceGroupId>fb9b1a2f-0162-1000-c396-5622e727c7dd</sourceGroupId>
+      <sourceType>PROCESSOR</sourceType>
+      <destinationId>fbdcba79-0162-1000-6fdb-f2018d8664cd</destinationId>
+      <destinationGroupId>fb9b1a2f-0162-1000-c396-5622e727c7dd</destinationGroupId>
+      <destinationType>PROCESSOR</destinationType>
+      <relationship>success</relationship>
+      <maxWorkQueueSize>10000</maxWorkQueueSize>
+      <maxWorkQueueDataSize>1 GB</maxWorkQueueDataSize>
+      <flowFileExpiration>0 sec</flowFileExpiration>
+    </connection>
+  </rootGroup>
+  <controllerServices/>
+  <reportingTasks/>
+</flowController>
