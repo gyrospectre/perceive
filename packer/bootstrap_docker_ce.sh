@@ -12,7 +12,9 @@ sudo apt-get install \
     apt-transport-https \
     ca-certificates \
     curl \
-    software-properties-common
+    software-properties-common \
+    python \
+    python-setuptools
 
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 sudo apt-key fingerprint 0EBFCD88
