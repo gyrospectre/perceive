@@ -65,7 +65,7 @@ pipeline {
         }
       }
       environment {
-        REBUILD_AMI = 'True'
+        REBUILD_AMI = 'False'
         ANSIBLE_HOST_KEY_CHECKING = 'False'
       }
     }
