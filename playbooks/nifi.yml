@@ -1,8 +1,4 @@
 ---
-- name: "Bootstrap Nifi server(s)"
-  hosts: "nifi-servers"
-  become: True
-
 - name: "Deploy Nifi container"
   hosts: "nifi-servers"
   become: True
