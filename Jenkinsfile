@@ -2,13 +2,14 @@ pipeline {
   agent any
 
   environment {
-    REBUILD_AMI = 'false'
+    REBUILD_AMI = 'False'
+    ANSIBLE_HOST_KEY_CHECKING = 'False'
   }
 
   stages {
     stage('Build AMI') {
       when {
-        environment name: 'REBUILD_AMI', value: 'true'
+        environment name: 'REBUILD_AMI', value: 'True'
       }
       steps {
         withCredentials([[
