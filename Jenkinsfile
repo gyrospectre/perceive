@@ -2,6 +2,9 @@ pipeline {
   agent any
   stages {
     stage('Build AMI') {
+      when {
+        tag "rebuild"
+      }
       steps {
         withCredentials([[
           $class: 'AmazonWebServicesCredentialsBinding',
