@@ -1,0 +1,57 @@
+---
+- name: "Bootstrap Nifi server(s)"
+  hosts: "nifi-servers"
+  become: True
+
+- name: "Deploy Nifi container"
+  hosts: "nifi-servers"
+  become: True
+
+  tasks:
+    - name: Install pip
+      apt:
+        name: "python-pip"
+        state: "present"
+        update_cache: True
+        install_recommends: False
+
+    - name: Install Docker-py
+      pip:
+        name: "{{ item }}"
+      with_items:
+      - setuptools
+      - six
+      - docker-py
+      - docker-compose==1.9.0
+
+    - name: Copy flow config to remote
+      copy:
+        src: ../nificfg/flow.xml
+        dest: /tmp/flow.xml
+        owner: root
+        group: root
+        mode: 0755
+
+    - name: Copy Dockerfile to remote
+      copy:
+        src: ../nificfg/Dockerfile
+        dest: /tmp/Dockerfile
+        owner: root
+        group: root
+        mode: 0755
+
+    - name: Compress flowfile
+      archive:
+        path: /tmp/flow.xml
+        dest: /tmp/flow.xml.gz
+
+    - name: build the image
+      command: docker build -t nifi:configured /tmp
+
+    - name: Pull and run container
+      docker_container:
+        name: nifi
+        state: started
+        ports: "0.0.0.0:8080:8080"
+        image: "nifi:configured"
+
