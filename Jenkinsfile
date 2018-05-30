@@ -41,7 +41,7 @@ pipeline {
       steps {
         sh '''
              cd terraform
-             cat ../playbooks/hosts.template | sed "s/{CONFLUENT_IP}/$(terraform output confluent_ip)/g" > ../hosts.yml'
+             cat ../playbooks/hosts.template | sed "s/{CONFLUENT_IP}/$(terraform output confluent_ip)/g" > ../hosts.yml
            '''
       }
     }
