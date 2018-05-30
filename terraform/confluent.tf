@@ -26,6 +26,7 @@ data "aws_ami" "perceive_base_ami" {
 resource "aws_instance" "confluent" {
   ami      = "${data.aws_ami.perceive_base_ami.id}"
   instance_type = "t2.micro"
+  key_name = "main"
   vpc_security_group_ids = ["${aws_security_group.perceive_confluent_sg.id}"]
   lifecycle {
     create_before_destroy = true
