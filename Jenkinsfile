@@ -1,7 +1,15 @@
 pipeline {
   agent any
+
+  environment {
+    REBUILD_AMI = 'false'
+  }
+
   stages {
     stage('Build AMI') {
+      when {
+        environment name: 'REBUILD_AMI', value: 'true'
+      }
       steps {
         withCredentials([[
           $class: 'AmazonWebServicesCredentialsBinding',
