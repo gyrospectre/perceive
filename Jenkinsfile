@@ -39,7 +39,7 @@ pipeline {
     }
     stage('Build Hosts File') {
       steps {
-        sh 'cat playbooks/hosts.template | sed "s/{CONFLUENT_IP}/$(terraform output confluent_ip)/g" | sed 's/{KEY_FILE}/\/var\/lib\/jenkins\/.ssh\/ubuntu.pem/g' > hosts.yml'
+        sh 'cat playbooks/hosts.template | sed "s/{CONFLUENT_IP}/$(terraform output confluent_ip)/g" > hosts.yml'
       }
     }
     stage('Deploy Confluent') {

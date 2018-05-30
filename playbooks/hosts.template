@@ -1,2 +1,2 @@
 [confluent-servers]
-{CONFLUENT_IP} ansible_ssh_private_key_file={KEY_FILE} ansible_user=ubuntu
+{CONFLUENT_IP} ansible_ssh_private_key_file=/var/lib/jenkins/.ssh/ubuntu.pem ansible_user=ubuntu
