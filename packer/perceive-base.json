@@ -1,0 +1,54 @@
+{
+  "variables": {
+    "aws_access_key": "",
+    "aws_secret_key": ""
+  },
+
+  "provisioners": [
+    {
+      "type": "file",
+      "source": "bootstrap_docker_ce.sh",
+      "destination": "/tmp/bootstrap_docker_ce.sh"
+    },
+    {
+      "type": "shell",
+      "execute_command": "echo 'packer' | sudo -S sh -c '{{ .Vars }} {{ .Path }}'",
+      "inline": [
+        "whoami",
+        "cd /tmp",
+        "chmod +x bootstrap_docker_ce.sh",
+        "chmod +x cleanup.sh",
+        "ls -alh /tmp",
+        "./bootstrap_docker_ce.sh",
+        "sleep 10",
+        "./cleanup.sh"
+      ]
+    }
+  ],
+
+  "builders": [{
+    "type": "amazon-ebs",
+    "access_key": "{{user `aws_access_key`}}",
+    "secret_key": "{{user `aws_secret_key`}}",
+    "region": "ap-southeast-2",
+    "source_ami_filter": {
+      "filters": {
+        "virtualization-type": "hvm",
+        "name": "ubuntu/images/hvm/ubuntu-trusty-14.04-amd64-server-*",
+        "architecture": "x86_64",
+        "root-device-type": "ebs"
+      },
+      "owners": ["099720109477"],
+      "most_recent": true
+    },
+    "instance_type": "t2.micro",
+    "ssh_username": "ubuntu",
+    "ami_name": "perceive-base {{timestamp}}",
+    "launch_block_device_mappings": [{
+      "device_name": "/dev/sda1",
+      "volume_size": 8,
+      "volume_type": "gp2",
+      "delete_on_termination": true
+    }]
+  }]
+}
