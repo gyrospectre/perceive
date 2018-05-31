@@ -5,6 +5,7 @@
 # https://raw.githubusercontent.com/garystafford/ami-docker-ce-packer/master/packer/bootstrap_docker_ce.sh
 
 # set -e
+sudo apt-get update
 
 sudo apt-get remove docker docker-engine
 
