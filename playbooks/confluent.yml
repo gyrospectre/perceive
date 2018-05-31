@@ -4,13 +4,6 @@
   become: True
 
   tasks:
-    - name: Install pip
-      apt:
-        name: "python-pip"
-        state: "present"
-        update_cache: True
-        install_recommends: False
-
     - name: Install Docker-py
       pip:
         name: "{{ item }}"

@@ -9,14 +9,11 @@ sudo apt-get update
 
 sudo apt-get remove docker docker-engine
 
-sudo apt-get install \
+sudo apt-get install -y \
     apt-transport-https \
     ca-certificates \
     curl \
-    software-properties-common \
-    python \
-    python-setuptools \
-    python-pip
+    software-properties-common
 
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 sudo apt-key fingerprint 0EBFCD88
@@ -28,7 +25,7 @@ sudo add-apt-repository \
 sudo apt-get update
 sudo apt-get -y upgrade
 sudo apt-get install -y docker-ce
-
+sudo apt-get install -y python python-setuptools python-pip
 sudo groupadd docker
 sudo usermod -aG docker ubuntu
 
