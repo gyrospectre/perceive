@@ -1,0 +1,38 @@
+---
+- name: "Deploy ElasticSearch container"
+  hosts: "elastic-servers"
+  become: True
+
+  tasks:
+    - name: Install Docker-py
+      pip:
+        name: "{{ item }}"
+      with_items:
+      - setuptools
+      - six
+      - docker-py
+      - docker-compose==1.9.0
+
+    - name: Creates directory
+      file:
+        path: /opt/compose/elastic
+        state: directory
+        owner: root
+        group: root
+        mode: 0755
+        recurse: yes
+
+    - name: Copy docker settings to remote
+      copy:
+        src: ../elasticsearch/docker-compose.yml
+        dest: /opt/compose/elastic/docker-compose.yml
+        owner: root
+        group: root
+        mode: 0755
+
+    - name: System tuning
+      command: sysctl -w vm.max_map_count=262144
+
+    - name: Run the service defined in docker-compose.yml
+      docker_service:
+        project_src: /opt/compose/elastic
