@@ -39,7 +39,7 @@
     "source_ami_filter": {
       "filters": {
         "virtualization-type": "hvm",
-        "name": "ubuntu/images/hvm/ubuntu-trusty-14.04-amd64-server-*",
+        "name": "ubuntu/images/hvm-ssd/ubuntu-xenial-16.04-amd64-server-*",
         "architecture": "x86_64",
         "root-device-type": "ebs"
       },
