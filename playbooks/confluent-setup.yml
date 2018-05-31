@@ -1,6 +1,6 @@
 ---
 - name: "Configure Confluent"
-  hosts: "kafka-servers"
+  hosts: "confluent-servers"
   become: True
 
   tasks:
