@@ -1,6 +1,6 @@
 resource "aws_instance" "confluent" {
   ami      = "${data.aws_ami.perceive_base_ami.id}"
-  instance_type = "t2.small"
+  instance_type = "t2.medium"
   key_name = "main"
   vpc_security_group_ids = ["${aws_security_group.perceive_confluent_sg.id}"]
   lifecycle {
@@ -17,6 +17,13 @@ resource "aws_security_group" "perceive_confluent_sg" {
     cidr_blocks = ["10.1.1.0/24"]
   }
 
+  ingress {
+    from_port = 8083
+    to_port = 8083
+    protocol = "tcp"
+    cidr_blocks = ["192.168.1.0/24"]
+  }
+  
   ingress {
     from_port = 22
     to_port = 22
