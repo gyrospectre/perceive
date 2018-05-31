@@ -1,6 +1,6 @@
 resource "aws_instance" "elastic" {
   ami      = "${data.aws_ami.perceive_base_ami.id}"
-  instance_type = "t2.micro"
+  instance_type = "t2.small"
   key_name = "main"
   vpc_security_group_ids = ["${aws_security_group.perceive_elastic_sg.id}"]
   lifecycle {
