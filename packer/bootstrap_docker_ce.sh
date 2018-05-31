@@ -6,7 +6,6 @@
 
 # set -e
 sudo apt-get update
-
 sudo apt-get remove docker docker-engine
 
 sudo apt-get install -y \
