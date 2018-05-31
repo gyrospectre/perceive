@@ -1,4 +1,4 @@
-from xemuliam/nifi-base
+from apache/nifi
 RUN        cd /opt/nifi/nifi-1.6.0/lib && \
            find . \
                ! -path './bootstrap*' \
