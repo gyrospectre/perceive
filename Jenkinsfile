@@ -15,7 +15,6 @@ pipeline {
                   ]]) {
             sh '/usr/local/bin/packer build -var aws_access_key=${AWS_KEY} -var aws_secret_key=${AWS_SECRET} packer/perceive-base.json'
           }
-
         }
       }
       stage('Deploy Instances') {
@@ -35,11 +34,12 @@ pipeline {
 
           }
         }
-        stage('Build Hosts File') {
+        stage('Updates Files with Host IPs') {
           steps {
             sh '''
              cd terraform
              cat ../playbooks/hosts.template | sed "s/{CONFLUENT_IP}/$(terraform output confluent_ip)/g" | sed "s/{NIFI_IP}/$(terraform output nifi_ip)/g" > ../hosts.yml
+             sed -i "s/{CONFLUENT_IP}/$(terraform output confluent_ip)/g" ../nificfg/flow.xml
            '''
           }
         }
@@ -61,6 +61,11 @@ pipeline {
                 ansiblePlaybook(playbook: 'playbooks/nifi.yml', credentialsId: 'ubuntu', disableHostKeyChecking: true, inventory: 'hosts.yml', become: true, becomeUser: 'root')
               }
             }
+          }
+        }
+        stage('Configure Kakfa') {
+          steps {
+            ansiblePlaybook(playbook: 'playbooks/confluent-setup.yml', credentialsId: 'ubuntu', disableHostKeyChecking: true, inventory: 'hosts.yml', become: true, becomeUser: 'root')
           }
         }
       }

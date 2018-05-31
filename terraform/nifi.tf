@@ -14,7 +14,7 @@ resource "aws_security_group" "perceive_nifi_sg" {
     from_port = 8080
     to_port = 8080
     protocol = "tcp"
-    cidr_blocks = ["10.1.1.0/24","192.168.1.0/24"]
+    cidr_blocks = ["192.168.1.0/24"]
   }
 
   ingress {
@@ -36,6 +36,13 @@ resource "aws_security_group" "perceive_nifi_sg" {
     to_port = 443
     protocol = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  egress {
+    from_port = 9092
+    to_port = 9092
+    protocol = "tcp"
+    cidr_blocks = ["172.31.0.0/20"]
   }
 
   lifecycle {

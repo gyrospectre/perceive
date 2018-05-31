@@ -102,7 +102,7 @@
       <runDurationNanos>0</runDurationNanos>
       <property>
         <name>bootstrap.servers</name>
-        <value>192.168.1.4:9092</value>
+        <value>{CONFLUENT_IP}:9092</value>
       </property>
       <property>
         <name>security.protocol</name>

@@ -14,16 +14,16 @@ resource "aws_security_group" "perceive_confluent_sg" {
     from_port = 9092
     to_port = 9092
     protocol = "tcp"
-    cidr_blocks = ["10.1.1.0/24"]
+    cidr_blocks = ["192.168.1.0/24","172.31.0.0/20"]
   }
 
   ingress {
-    from_port = 8083
-    to_port = 8083
+    from_port = 9021
+    to_port = 9021
     protocol = "tcp"
     cidr_blocks = ["192.168.1.0/24"]
   }
-  
+
   ingress {
     from_port = 22
     to_port = 22
