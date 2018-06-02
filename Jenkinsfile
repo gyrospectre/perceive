@@ -41,6 +41,7 @@ pipeline {
              cat ../playbooks/hosts.template | sed "s/{CONFLUENT_IP}/$(terraform output confluent_ip)/g" | sed "s/{NIFI_IP}/$(terraform output nifi_ip)/g" | sed "s/{ELASTIC_IP}/$(terraform output elastic_ip)/g"> ../hosts.yml
              sed -i "s/{CONFLUENT_IP}/$(terraform output confluent_ip)/g" ../nificfg/flow.xml
              sed -i "s/{ELASTIC_IP}/$(terraform output elastic_ip)/g" ../nificfg/flow.xml
+             sed -i "s/{KIBANA_IP}/$(terraform output elastic_ip)/g" ../nificfg/flow.xml
            '''
           }
         }
@@ -50,7 +51,7 @@ pipeline {
             sleep 15
           }
         }
-        stage('Deploy Confluent') {
+        stage('Deploy Phase 1') {
           parallel {
             stage('Deploy Confluent') {
               steps {
@@ -69,17 +70,25 @@ pipeline {
             }
           }
         }
-        stage('Configure Confluent') {
-          steps {
-            ansiblePlaybook(playbook: 'playbooks/confluent-setup.yml', credentialsId: 'ubuntu', disableHostKeyChecking: true, inventory: 'hosts.yml', become: true, becomeUser: 'root')
+        stage('Deploy Phase 2') {
+          parallel {
+            stage('Deploy Kibana') {
+              steps {
+                ansiblePlaybook(playbook: 'playbooks/kibana.yml', credentialsId: 'ubuntu', disableHostKeyChecking: true, inventory: 'hosts.yml', become: true, becomeUser: 'root')
+              }
+            }
+            stage('Configure Confluent') {
+              steps {
+                ansiblePlaybook(playbook: 'playbooks/confluent-setup.yml', credentialsId: 'ubuntu', disableHostKeyChecking: true, inventory: 'hosts.yml', become: true, becomeUser: 'root')
+              }
+            }
+            stage('Configure DNS') {
+              steps {
+                sh 'python dns/ansible-host-to-zone.py --hosts hosts.yml --zone dns/db.perceive.internal.head'
+                ansiblePlaybook(playbook: 'playbooks/update-dns.yml', credentialsId: 'rasppi', disableHostKeyChecking: true, inventory: 'hosts.yml', become: true, becomeUser: 'root')
+              }
+            }
           }
-        }
-        stage('Configure DNS') {
-          steps {
-            sh 'python dns/ansible-host-to-zone.py --hosts hosts.yml --zone dns/db.perceive.internal.head'
-            ansiblePlaybook(playbook: 'playbooks/update-dns.yml', credentialsId: 'rasppi', disableHostKeyChecking: true, inventory: 'hosts.yml', become: true, becomeUser: 'root')
-          }
-        }
       }
       environment {
         REBUILD_AMI = 'False'
