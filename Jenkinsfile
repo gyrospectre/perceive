@@ -76,7 +76,7 @@ pipeline {
         }
         stage('Configure DNS') {
           steps {
-            sh 'python dns/ansible-host-to-zone.py --hosts hosts.yml --zone db.perceive.internal.head'
+            sh 'python dns/ansible-host-to-zone.py --hosts hosts.yml --zone dns/db.perceive.internal.head'
             ansiblePlaybook(playbook: 'playbooks/update-dns.yml', credentialsId: 'rasppi', disableHostKeyChecking: true, inventory: 'hosts.yml', become: true, becomeUser: 'root')
           }
         }
