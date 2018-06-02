@@ -30,4 +30,6 @@ sudo usermod -aG docker ubuntu
 
 sudo systemctl enable docker
 
+pip install -y setuptools six docker-py docker-compose==1.9.0
+
 docker --version

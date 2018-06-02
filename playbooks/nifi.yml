@@ -4,15 +4,6 @@
   become: True
 
   tasks:
-    - name: Install Docker-py
-      pip:
-        name: "{{ item }}"
-      with_items:
-      - setuptools
-      - six
-      - docker-py
-      - docker-compose==1.9.0
-
     - name: Copy flow config to remote
       copy:
         src: ../nificfg/flow.xml
