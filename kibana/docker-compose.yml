@@ -1,0 +1,11 @@
+version: '2'
+services:
+  kibana:
+    image: docker.elastic.co/kibana/kibana:6.2.4
+
+    ports:
+      - 5601:5601
+
+    environment:
+      SERVER_NAME: kibana.example.org
+      ELASTICSEARCH_URL: http://192.168.1.6:9200
