@@ -1,0 +1,16 @@
+---
+- name: "Configure DNS"
+  hosts: "dns-servers"
+  become: True
+
+  tasks:
+    - name: Copy zone file to remote
+      copy:
+        src: ../dns/db.perceive.internal.head
+        dest: /etc/bind/zones/db.perceive.internal
+        owner: root
+        group: root
+        mode: 0755
+
+    - name: Restart BIND
+      command: service bind9 restart

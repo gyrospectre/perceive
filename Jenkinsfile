@@ -74,6 +74,12 @@ pipeline {
             ansiblePlaybook(playbook: 'playbooks/confluent-setup.yml', credentialsId: 'ubuntu', disableHostKeyChecking: true, inventory: 'hosts.yml', become: true, becomeUser: 'root')
           }
         }
+        stage('Configure DNS') {
+          steps {
+            sh 'python dns/ansible-host-to-zone.py --hosts hosts.yml --zone db.perceive.internal.head'
+            ansiblePlaybook(playbook: 'playbooks/update-dns.yml', credentialsId: 'rasppi', disableHostKeyChecking: true, inventory: 'hosts.yml', become: true, becomeUser: 'root')
+          }
+        }
       }
       environment {
         REBUILD_AMI = 'False'
