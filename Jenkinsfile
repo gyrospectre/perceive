@@ -38,10 +38,12 @@ pipeline {
           steps {
             sh '''
              cd terraform
-             cat ../playbooks/hosts.template | sed "s/{CONFLUENT_IP}/$(terraform output confluent_ip)/g" | sed "s/{NIFI_IP}/$(terraform output nifi_ip)/g" | sed "s/{ELASTIC_IP}/$(terraform output elastic_ip)/g"> ../hosts.yml
+             cat ../playbooks/hosts.template | sed "s/{CONFLUENT_IP}/$(terraform output confluent_ip)/g" > ../hosts.yml
+             sed -i "s/{NIFI_IP}/$(terraform output nifi_ip)/g" ../hosts.yml
+             sed -i "s/{ELASTIC_IP}/$(terraform output elastic_ip)/g" ../hosts.yml
+             sed -i "s/{KIBANA_IP}/$(terraform output elastic_ip)/g" ../hosts.yml
              sed -i "s/{CONFLUENT_IP}/$(terraform output confluent_ip)/g" ../nificfg/flow.xml
              sed -i "s/{ELASTIC_IP}/$(terraform output elastic_ip)/g" ../nificfg/flow.xml
-             sed -i "s/{KIBANA_IP}/$(terraform output elastic_ip)/g" ../nificfg/flow.xml
            '''
           }
         }
