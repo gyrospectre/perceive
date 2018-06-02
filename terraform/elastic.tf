@@ -25,6 +25,13 @@ resource "aws_security_group" "perceive_elastic_sg" {
     cidr_blocks = ["172.31.0.0/20"]
   }
 
+  ingress {
+    from_port = 5601
+    to_port = 5601
+    protocol = "tcp"
+    cidr_blocks = ["192.168.1.0/24"]
+  }
+
   egress {
     from_port = 80
     to_port = 80
