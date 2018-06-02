@@ -1,15 +1,15 @@
-resource "aws_instance" "elastic" {
+resource "aws_instance" "kibana" {
   ami      = "${data.aws_ami.perceive_base_ami.id}"
-  instance_type = "t2.small"
+  instance_type = "t2.micro"
   key_name = "main"
-  vpc_security_group_ids = ["${aws_security_group.perceive_elastic_sg.id}"]
+  vpc_security_group_ids = ["${aws_security_group.perceive_kibana_sg.id}"]
   lifecycle {
     create_before_destroy = true
   }
 }
 
-resource "aws_security_group" "perceive_elastic_sg" {
-  name = "security_group_for_elastic"
+resource "aws_security_group" "perceive_kibana_sg" {
+  name = "security_group_for_kibana"
 
   ingress {
     from_port = 22
@@ -19,10 +19,10 @@ resource "aws_security_group" "perceive_elastic_sg" {
   }
 
   ingress {
-    from_port = 9200
-    to_port = 9200
+    from_port = 5601
+    to_port = 5601
     protocol = "tcp"
-    cidr_blocks = ["172.31.0.0/20"]
+    cidr_blocks = ["192.168.1.0/24"]
   }
 
   egress {
@@ -39,11 +39,18 @@ resource "aws_security_group" "perceive_elastic_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
+  egress {
+    from_port = 9200
+    to_port = 9200
+    protocol = "tcp"
+    cidr_blocks = ["172.31.0.0/20"]
+  }
+
   lifecycle {
     create_before_destroy = true
   }
 }
 
-output "elastic_ip" {
-  value = "${aws_instance.elastic.private_ip}"
+output "kibana_ip" {
+  value = "${aws_instance.kibana.private_ip}"
 }

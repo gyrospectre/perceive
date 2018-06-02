@@ -13,4 +13,6 @@
         mode: 0755
 
     - name: Restart BIND
-      command: service bind9 restart
+      service:
+        name: bind9
+        state: restarted
