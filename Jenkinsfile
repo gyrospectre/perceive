@@ -89,6 +89,7 @@ pipeline {
               }
             }
           }
+        }
       }
       environment {
         REBUILD_AMI = 'False'
