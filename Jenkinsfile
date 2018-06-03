@@ -49,12 +49,22 @@ pipeline {
           }
         }
         stage('Generate Certs') {
-          steps {
-            sh '''
-             cd terraform
-             sh ../pki/generatecert.sh kibana.perceive.internal $(terraform output kibana_ip)
-             mv kibana.perceive.internal.* ../
-            '''
+          parallel {
+            stage('Generate Certs') {
+              steps {
+                sh '''
+                 cd terraform
+                 sh ../pki/generatecert.sh kibana.perceive.internal $(terraform output kibana_ip)
+                 mv kibana.perceive.internal.* ../
+                '''
+              }
+            }
+            stage('Pause') {
+              steps {
+                echo 'Waiting 15 seconds to allow instances to finish starting up...'
+                sleep 10
+              }
+            }
           }
         }
         stage('Deploy Phase 1') {
