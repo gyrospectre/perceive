@@ -1,0 +1,3 @@
+server.ssl.enabled: true
+server.ssl.key: /opt/kibana.perceive.internal.key
+server.ssl.certificate: /opt/kibana.perceive.internal.cer

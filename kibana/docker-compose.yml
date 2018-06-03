@@ -7,5 +7,10 @@ services:
       - 5601:5601
 
     environment:
-      SERVER_NAME: kibana.example.org
+      SERVER_NAME: kibana.perceive.internal
       ELASTICSEARCH_URL: http://{ELASTIC_IP}:9200
+
+volumes:
+      - /opt/compose/kibana/kibana.yml:/usr/share/kibana/config/kibana.yml
+      - /opt/compose/kibana/kibana.perceive.internal.key:/opt/kibana.perceive.internal.key
+      - /opt/compose/kibana/kibana.perceive.internal.cer:/opt/kibana.perceive.internal.cer

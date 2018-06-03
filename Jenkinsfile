@@ -48,10 +48,12 @@ pipeline {
            '''
           }
         }
-        stage('Pause') {
+        stage('Generate Certs') {
           steps {
-            echo 'Waiting 15 seconds to allow instances to finish starting up...'
-            sleep 15
+            sh '''
+             cd terraform
+             ../pki/generatecerts.sh kibana.pereceive.internal $(terraform output kibana_ip)
+            '''
           }
         }
         stage('Deploy Phase 1') {
@@ -95,7 +97,7 @@ pipeline {
         }
       }
       environment {
-        REBUILD_AMI = 'True'
+        REBUILD_AMI = 'False'
         ANSIBLE_HOST_KEY_CHECKING = 'False'
       }
     }

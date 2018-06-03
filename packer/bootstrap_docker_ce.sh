@@ -29,7 +29,7 @@ sudo groupadd docker
 sudo usermod -aG docker ubuntu
 
 sudo systemctl enable docker
-
+pip install --upgrade pip
 pip install setuptools six docker-py docker-compose==1.9.0
 
 docker --version

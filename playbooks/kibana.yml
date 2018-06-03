@@ -21,6 +21,30 @@
         group: root
         mode: 0755
 
+    - name: Copy kibana config to remote
+      copy:
+        src: ../kibana/kibana.yml
+        dest: /opt/compose/kibana/kibana.yml
+        owner: root
+        group: root
+        mode: 0755
+
+    - name: Copy private key to remote
+      copy:
+        src: kibana.perceive.internal.key
+        dest: /opt/compose/kibana/kibana.perceive.internal.key
+        owner: root
+        group: root
+        mode: 0400
+
+    - name: Copy UI cert to remote
+      copy:
+        src: kibana.perceive.internal.cer
+        dest: /opt/compose/kibana/kibana.perceive.internal.cer
+        owner: root
+        group: root
+        mode: 0400
+
     - name: Run the service defined in docker-compose.yml
       docker_service:
         project_src: /opt/compose/kibana
