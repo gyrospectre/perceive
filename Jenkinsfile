@@ -53,6 +53,7 @@ pipeline {
             sh '''
              cd terraform
              sh ../pki/generatecert.sh kibana.perceive.internal $(terraform output kibana_ip)
+             mv kibana.perceive.internal.* ../
             '''
           }
         }
