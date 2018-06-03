@@ -52,7 +52,7 @@ pipeline {
           steps {
             sh '''
              cd terraform
-             ../pki/generatecerts.sh kibana.pereceive.internal $(terraform output kibana_ip)
+             ../pki/generatecert.sh kibana.pereceive.internal $(terraform output kibana_ip)
             '''
           }
         }
