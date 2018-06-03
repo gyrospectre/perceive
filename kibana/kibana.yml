@@ -1,3 +1,4 @@
+server.host: 0.0.0.0
 server.ssl.enabled: true
 server.ssl.key: /opt/kibana.perceive.internal.key
 server.ssl.certificate: /opt/kibana.perceive.internal.cer
