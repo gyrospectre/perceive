@@ -4,18 +4,27 @@
   become: True
 
   tasks:
-    - name: Copy flow config to remote
+    - name: Creates directory
+      file:
+        path: /opt/compose/nifi
+        state: directory
+        owner: root
+        group: root
+        mode: 0755
+        recurse: yes
+
+    - name: Copy docker settings to remote
       copy:
-        src: ../nificfg/flow.xml
-        dest: /tmp/flow.xml
+        src: ../nifi/docker-compose.yml
+        dest: /opt/compose/nifi/docker-compose.yml
         owner: root
         group: root
         mode: 0755
 
-    - name: Copy Dockerfile to remote
+    - name: Copy flow config to remote
       copy:
-        src: ../nificfg/Dockerfile
-        dest: /tmp/Dockerfile
+        src: ../nifi/flow.xml
+        dest: /tmp/flow.xml
         owner: root
         group: root
         mode: 0755
@@ -23,15 +32,8 @@
     - name: Compress flowfile
       archive:
         path: /tmp/flow.xml
-        dest: /tmp/flow.xml.gz
+        dest: /opt/compose/nifi/flow.xml.gz
 
-    - name: build the image
-      command: docker build -t nifi:configured /tmp
-
-    - name: Pull and run container
-      docker_container:
-        name: nifi
-        state: started
-        ports: "0.0.0.0:8080:8080"
-        image: "nifi:configured"
-
+    - name: Run the service defined in docker-compose.yml
+      docker_service:
+        project_src: /opt/compose/nifi
