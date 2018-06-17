@@ -13,6 +13,15 @@
         mode: 0755
         recurse: yes
 
+    - name: Creates directory
+      file:
+        path: /opt/certs
+        state: directory
+        owner: root
+        group: root
+        mode: 0755
+        recurse: yes
+
     - name: Copy docker settings to remote
       copy:
         src: ../nifi/docker-compose.yml
