@@ -3,7 +3,7 @@ services:
   nifi:
     build:
       context: .
-      dockerfile: Dockerfile-alternate
+      dockerfile: Dockerfile-nifi
 
     volumes:
       - /opt/compose/nifi/flow.xml.gz:/opt/nifi/nifi-1.6.0/conf/flow.xml.gz
