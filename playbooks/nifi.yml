@@ -21,6 +21,14 @@
         group: root
         mode: 0755
 
+    - name: Copy Dockerfile to remote
+      copy:
+        src: ../nifi/Dockerfile-nifi
+        dest: /opt/compose/nifi/Dockerfile
+        owner: root
+        group: root
+        mode: 0755
+
     - name: Copy flow config to remote
       copy:
         src: ../nifi/flow.xml
@@ -33,6 +41,7 @@
       archive:
         path: /tmp/flow.xml
         dest: /opt/compose/nifi/flow.xml.gz
+        mode: 0755
 
     - name: Run the service defined in docker-compose.yml
       docker_service:
