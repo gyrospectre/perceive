@@ -57,7 +57,7 @@ pipeline {
                  sh ../pki/generatecert.sh kibana.perceive.internal
                  mv kibana.perceive.internal.* ../
                  sh ../pki/generatecert.sh nifi.perceive.internal
-                 mv kibana.perceive.internal.* ../
+                 mv nifi.perceive.internal.* ../
                  sh ../pki/generatecert.sh admin user
                  mv admin.* ../
                  password=`tr -cd '[:alnum:]' < /dev/urandom | fold -w30 | head -n1`
