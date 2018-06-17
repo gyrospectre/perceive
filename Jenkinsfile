@@ -66,7 +66,7 @@ pipeline {
                  openssl pkcs12 -export -in nifi.perceive.internal.cer -inkey nifi.perceive.internal.key -name nifi-key -out out.p12 -passout pass:$password
                  keytool -importkeystore -deststorepass $password -destkeystore keystore.jks -srckeystore out.p12 -srcstoretype PKCS12 -srcstorepass $password -keypass $password
                  rm out.p12
-                 sed -i "s/{JKS_PASS}/$(password)/g" nifi/docker-compose.yml
+                 sed -i "s/{JKS_PASS}/$password/g" nifi/docker-compose.yml
                 '''
               }
             }

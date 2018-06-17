@@ -37,6 +37,22 @@
         group: root
         mode: 0755
 
+    - name: Copy keystore to remote
+      copy:
+        src: ../keystore.jks
+        dest: /opt/certs/keystore.jks
+        owner: root
+        group: root
+        mode: 0755
+
+    - name: Copy truststore to remote
+      copy:
+        src: ../truststore.jks
+        dest: /opt/certs/truststore.jks
+        owner: root
+        group: root
+        mode: 0755
+
     - name: Compress flowfile
       archive:
         path: /tmp/flow.xml
