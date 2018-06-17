@@ -52,6 +52,13 @@ resource "aws_security_group" "perceive_nifi_sg" {
     cidr_blocks = ["172.31.0.0/20"]
   }
 
+  egress {
+    from_port = 389
+    to_port = 389
+    protocol = "tcp"
+    cidr_blocks = ["10.1.1.101/32"]
+  }
+
   lifecycle {
     create_before_destroy = true
   }

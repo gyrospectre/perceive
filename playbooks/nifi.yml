@@ -4,7 +4,7 @@
   become: True
 
   tasks:
-    - name: Creates directory
+    - name: Create main directory
       file:
         path: /opt/compose/nifi
         state: directory
@@ -13,7 +13,7 @@
         mode: 0755
         recurse: yes
 
-    - name: Creates directory
+    - name: Create cert directory
       file:
         path: /opt/certs
         state: directory

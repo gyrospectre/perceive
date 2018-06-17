@@ -12,11 +12,18 @@ services:
       - 8443:8443
 
     environment:
-      AUTH: tls
+      AUTH: ldap
       KEYSTORE_PATH: /opt/certs/keystore.jks
       KEYSTORE_TYPE: JKS
       KEYSTORE_PASSWORD: {JKS_PASS}
       TRUSTSTORE_PATH: /opt/certs/truststore.jks
       TRUSTSTORE_PASSWORD: {JKS_PASS}
       TRUSTSTORE_TYPE: JKS
-      INITIAL_ADMIN_IDENTITY: 'CN=Random User, O=Apache, OU=NiFi, C=US'
+      INITIAL_ADMIN_IDENTITY: 'cn=Jack Sparrow,ou=Users,dc=perceive,dc=internal'
+      LDAP_AUTHENTICATION_STRATEGY: 'SIMPLE'
+      LDAP_MANAGER_DN: 'cn=admin,dc=perceive,dc=internal'
+      LDAP_MANAGER_PASSWORD: 'password'
+      LDAP_USER_SEARCH_BASE: 'dc=perceive,dc=internal'
+      LDAP_USER_SEARCH_FILTER: 'cn={0}'
+      LDAP_IDENTITY_STRATEGY: 'USE_DN'
+      LDAP_URL: 'ldap://10.1.1.101:389'
