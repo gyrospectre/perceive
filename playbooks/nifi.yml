@@ -24,7 +24,7 @@
     - name: Copy Dockerfile to remote
       copy:
         src: ../nifi/Dockerfile-nifi
-        dest: /opt/compose/nifi/Dockerfile
+        dest: /opt/compose/nifi/Dockerfile-nifi
         owner: root
         group: root
         mode: 0755
