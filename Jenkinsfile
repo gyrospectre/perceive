@@ -56,6 +56,8 @@ pipeline {
                  cd terraform
                  sh ../pki/generatecert.sh kibana.perceive.internal $(terraform output kibana_ip)
                  mv kibana.perceive.internal.* ../
+                 sh ../pki/generatecert.sh admin user
+                 mv admin.* ../
                 '''
               }
             }

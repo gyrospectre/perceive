@@ -1,11 +1,17 @@
 #!/bin/bash
 
 certname=$1
+userflag=$2
 
-# Generate Certificate
-curl -d '{ "request": {"CN": "'$certname'","hosts":["$certname"],"key": { "algo": "rsa","size": 2048 },
- "names": [{"C":"AU","ST":"New South Wales","L":"Sydney","O":"perceive.internal"}]} }' \
-  http://127.0.0.1:8888/api/v1/cfssl/newcert -o tmpcert.json
+if [ $userflag ]; then
+  curl -d '{ "request": {"CN": "'$certname'","hosts":[""],"key": { "algo": "rsa","size": 2048 },
+   "names": [{"C":"AU","ST":"New South Wales","L":"Sydney","O":"perceive.internal"}]} }' \
+    http://127.0.0.1:8888/api/v1/cfssl/newcert -o tmpcert.json
+else
+  curl -d '{ "request": {"CN": "'$certname'","hosts":["$certname"],"key": { "algo": "rsa","size": 2048 },
+   "names": [{"C":"AU","ST":"New South Wales","L":"Sydney","O":"perceive.internal"}]} }' \
+    http://127.0.0.1:8888/api/v1/cfssl/newcert -o tmpcert.json
+fi
 
 # Create Private Key
 cat tmpcert.json | jq --raw-output '.result.private_key' > $certname.key
