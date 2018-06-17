@@ -54,10 +54,19 @@ pipeline {
               steps {
                 sh '''
                  cd terraform
-                 sh ../pki/generatecert.sh kibana.perceive.internal $(terraform output kibana_ip)
+                 sh ../pki/generatecert.sh kibana.perceive.internal
+                 mv kibana.perceive.internal.* ../
+                 sh ../pki/generatecert.sh nifi.perceive.internal
                  mv kibana.perceive.internal.* ../
                  sh ../pki/generatecert.sh admin user
                  mv admin.* ../
+                 password=`tr -cd '[:alnum:]' < /dev/urandom | fold -w30 | head -n1`
+                 keytool -importcert -file nifi.perceive.internal.cer -keystore truststore.jks -alias nifi-cert -storepass $password -noprompt
+                 openssl pkcs12 -export -in nifi.perceive.internal.cer -inkey nifi.perceive.internal.key -name nifi-key -out out.p12 -passout pass:$password
+                 keytool -importkeystore -deststorepass $password -destkeystore keystore.jks -srckeystore out.p12 -srcstoretype PKCS12 -srcstorepass $password -keypass $password
+                 rm out.p12
+                 mv *.jks ../
+                 sed -i "s/{JKS_PASS}/$(password)/g" ../nifi/docker-compose.yml
                 '''
               }
             }

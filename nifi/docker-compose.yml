@@ -5,5 +5,18 @@ services:
       context: .
       dockerfile: Dockerfile-nifi
 
+    volumes:
+      - /opt/certs:/opt/certs
+
     ports:
-      - 8080:8080
+      - 8443:8443
+
+    environment:
+      AUTH: tls
+      KEYSTORE_PATH: /opt/certs/keystore.jks
+      KEYSTORE_TYPE: JKS
+      KEYSTORE_PASSWORD: {JKS_PASS}
+      TRUSTSTORE_PATH: /opt/certs/truststore.jks
+      TRUSTSTORE_PASSWORD: {JKS_PASS}
+      TRUSTSTORE_TYPE: JKS
+      INITIAL_ADMIN_IDENTITY: 'CN=Random User, O=Apache, OU=NiFi, C=US'

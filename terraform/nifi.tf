@@ -11,8 +11,8 @@ resource "aws_instance" "nifi" {
 resource "aws_security_group" "perceive_nifi_sg" {
   name = "security_group_for_nifi"
   ingress {
-    from_port = 8080
-    to_port = 8080
+    from_port = 8443
+    to_port = 8443
     protocol = "tcp"
     cidr_blocks = ["192.168.1.0/24"]
   }
